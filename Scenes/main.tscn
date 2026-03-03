@@ -1,3 +1,17 @@
 [gd_scene format=3 uid="uid://dl45wbvpv21rk"]
 
+[ext_resource type="PackedScene" uid="uid://dm0q87kojv6vu" path="res://Assets/Airplane.fbx" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://dhv1jal2rfsl0" path="res://Assets/airplane.gd" id="2_bo1nx"]
+
 [node name="Main" type="Node3D" unique_id=678830766]
+
+[node name="Airplane" parent="." unique_id=689600199 instance=ExtResource("1_jjgbg")]
+script = ExtResource("2_bo1nx")
+
+[node name="Camera3D" type="Camera3D" parent="Airplane" unique_id=1549108663]
+transform = Transform3D(-1, -1.5257378e-09, -8.740946e-08, 0, 0.9998477, -0.017452406, 8.742278e-08, -0.017452406, -0.9998477, 0, 2, -10)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=52919964]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 100, 0)
+directional_shadow_mode = 0

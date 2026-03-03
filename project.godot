@@ -15,6 +15,10 @@ run/main_scene="uid://dl45wbvpv21rk"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://drtc1por4nsvl"
 
+[editor]
+
+movie_writer/video_quality=1.0
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
