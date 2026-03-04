@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c86f4vyllbagu"]
+
+[ext_resource type="Script" uid="uid://c8x4wugn1sp5b" path="res://Scripts/network_manager.gd" id="1_tbq58"]
+
+[node name="NetworkManager" type="Node" unique_id=1565415215]
+script = ExtResource("1_tbq58")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=944426084]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1380130181]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -33.0
+offset_right = 22.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=346683179]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=2023806694]
+layout_mode = 2
+text = "Join"
