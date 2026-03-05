@@ -18,6 +18,16 @@ config/icon="uid://drtc1por4nsvl"
 
 movie_writer/video_quality=1.0
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[gdunit4]
+
+settings/test/test_lookup_folder="tests"
+settings/test/test_discovery=true
+ui/toolbar/run_overall=true
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
