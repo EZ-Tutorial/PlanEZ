@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://c86f4vyllbagu"]
 
 [ext_resource type="Script" uid="uid://c8x4wugn1sp5b" path="res://Scripts/network_manager.gd" id="1_tbq58"]
+[ext_resource type="PackedScene" uid="uid://csx77lgnpwokb" path="res://Planes/plane.tscn" id="2_2po0p"]
 
 [node name="NetworkManager" type="Node" unique_id=1565415215]
 script = ExtResource("1_tbq58")
+plane_scene = ExtResource("2_2po0p")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=944426084]
 
@@ -27,3 +29,12 @@ text = "Host"
 [node name="JoinButton" type="Button" parent="CanvasLayer/VBoxContainer" unique_id=2023806694]
 layout_mode = 2
 text = "Join"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=754414213]
+_spawnable_scenes = PackedStringArray("uid://csx77lgnpwokb")
+spawn_path = NodePath("../SpawnRoot")
+
+[node name="SpawnRoot" type="Node3D" parent="." unique_id=585385120]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1715347257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68433523, 1.5908431)
