@@ -21,9 +21,14 @@ size = Vector3(500, 0.2, 500)
 [sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
 size = Vector2(500, 500)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jjgbg"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.22, 0.35, 0.18, 1)
+albedo_texture = SubResource("CompressedTexture2D_jjgbg")
 roughness = 0.9
+uv1_scale = Vector3(10, 10, 10)
+uv1_offset = Vector3(-0.15, 0.47, 0)
 
 [node name="Main" type="Node3D" unique_id=678830766]
 
