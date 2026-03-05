@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c86f4vyllbagu"]
 
-[ext_resource type="Script" uid="uid://c8x4wugn1sp5b" path="res://Scripts/network_manager.gd" id="1_tbq58"]
+[ext_resource type="Script" uid="uid://c8x4wugn1sp5b" path="res://network/network_manager.gd" id="1_tbq58"]
 [ext_resource type="PackedScene" uid="uid://csx77lgnpwokb" path="res://Planes/plane.tscn" id="2_2po0p"]
 
 [node name="NetworkManager" type="Node" unique_id=1565415215]
