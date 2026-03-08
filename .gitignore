@@ -14,10 +14,6 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
-.vscode/launch.json
-.cursor/settings.json
-
-build/
-
-build/
+.cursor/
+.vscode/
 .vscode/settings.json
