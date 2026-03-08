@@ -26,7 +26,7 @@ jobs:
   
   Export_and_Deploy:
     needs: GDUnit4_tests
-    if: github.ref == 'refs/heads/github-host'
+    if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
 
     permissions:
