@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdpxdssc2mivy"
+uid="uid://ci0j562wny8ee"
 path.s3tc="res://.godot/imported/biplane_0.png-ffca8a24cfb6cba635db6a5754aadda3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "f295842ad336b8a6e5006f298516b86c"
 }
 
 [deps]
