@@ -90,9 +90,9 @@ func _physics_process(delta: float) -> void:
 		rotation.x = lerp_angle(rotation.x, 0, delta)
 		rotation.z = lerp_angle(rotation.z, 0, delta)
 
-	var forward_direction = -transform.basis.z
-	velocity.x = forward_direction.x * current_speed
-	velocity.z = forward_direction.z * current_speed
+	# Vitesse = direction du nez × vitesse (inclut le pitch : nez en l'air = montée)
+	var forward_direction := -transform.basis.z
+	velocity = forward_direction * current_speed
 
 	#------animation------
 	var animation_player := $AnimationPlayer
@@ -104,8 +104,8 @@ func _physics_process(delta: float) -> void:
 	#------gravity------
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
-	if is_on_floor():
+	elif velocity.y < 0.0:
+		# Au sol : ne pas s'enfoncer, mais garder velocity.y si > 0 pour pouvoir décoller
 		velocity.y = 0.0
 
 	move_and_slide()
