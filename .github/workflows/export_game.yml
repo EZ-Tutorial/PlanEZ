@@ -2,10 +2,6 @@ name: Deploy Web Build
 
 on:
   push:
-  #workflow_run:
-    #workflows: ["GDUnit4 CI"]
-    #types:
-    #  - completed
     branches: ["github-host"]
 
 permissions:
@@ -18,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     
     # Check if the CI workflow was successful before running this job
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     
     environment:
       name: github-pages
@@ -26,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Export Godot Web build
         uses: firebelley/godot-export@v7.0.0
@@ -35,16 +30,14 @@ jobs:
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_export_templates.tpz
           relative_project_path: ./
-          archive_output: false
-          export_debug: false
+          export_debug: true
           presets_to_export: Web
-          relative_export_path: ./build/Web
 
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Upload web build artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./build/Web
 
