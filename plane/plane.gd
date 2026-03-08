@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# ------vitesse------
+# ------speed------
 @export var max_speed : float = 10.0
 @export var acceleration : float = 2
 @export var natural_deceleration : float = 0.7
