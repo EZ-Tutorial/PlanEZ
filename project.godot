@@ -11,12 +11,27 @@ config_version=5
 [application]
 
 config/name="PlanEZ"
+run/main_scene="uid://0ushbveag60l"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://drtc1por4nsvl"
 
 [editor]
 
 movie_writer/video_quality=1.0
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[gdunit4]
+
+settings/test/test_lookup_folder="tests"
+settings/test/test_discovery=true
+ui/toolbar/run_overall=true
+hooks/session_hooks=Dictionary[String, bool]({
+"res://addons/gdUnit4/src/core/hooks/GdUnitHtmlReporterTestSessionHook.gd": false,
+"res://addons/gdUnit4/src/core/hooks/GdUnitXMLReporterTestSessionHook.gd": false
+})
 
 [physics]
 
