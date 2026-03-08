@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dm0q87kojv6vu"
-path="res://.godot/imported/Airplane.fbx-8a6c97faa3fd86e385088078eba7439f.scn"
+path="res://.godot/imported/Airplane.fbx-ad3d32b7c1596c1287cfacbcef5ad539.scn"
 
 [deps]
 
-source_file="res://assets/Airplane.fbx"
-dest_files=["res://.godot/imported/Airplane.fbx-8a6c97faa3fd86e385088078eba7439f.scn"]
+source_file="res://Assets/Airplane.fbx"
+dest_files=["res://.godot/imported/Airplane.fbx-ad3d32b7c1596c1287cfacbcef5ad539.scn"]
 
 [params]
 
