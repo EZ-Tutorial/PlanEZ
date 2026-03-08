@@ -25,6 +25,9 @@ var target_bank : float = 0.0   # souris X (roulis)
 # ------gravity------
 @export var gravity : float = 198.0
 
+# ------UI------
+@onready var speed_label: Label = $SpeedOverlay/SpeedPanel/SpeedLabel
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	target_yaw = rotation.y
@@ -57,6 +60,9 @@ func _physics_process(delta: float) -> void:
 		# Pas de touche = on s'arrête doucement
 		current_speed = move_toward(current_speed, 0, deceleration * delta)
 	current_speed = clamp(current_speed, 0, max_speed)
+
+	if speed_label:
+		speed_label.text = "Speed: %.1f" % current_speed
 
 	#velocity update
 	# velocity = -transform.basis.z * current_speed

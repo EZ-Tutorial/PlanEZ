@@ -1466,3 +1466,32 @@ shape = SubResource("CapsuleShape3D_wpehv")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1050224033]
 transform = Transform3D(1.0557716e-08, -1, 8.612861e-08, -0.9703929, 1.0557721e-08, 0.24153242, -0.24153242, -8.612861e-08, -0.9703929, 0.012512207, 0.6878476, -0.14883733)
 shape = SubResource("CapsuleShape3D_wpehv")
+
+[node name="SpeedOverlay" type="CanvasLayer" parent="." unique_id=1597158028]
+
+[node name="SpeedPanel" type="Control" parent="SpeedOverlay" unique_id=616954876]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = -40.0
+offset_right = -27.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SpeedLabel" type="Label" parent="SpeedOverlay/SpeedPanel" unique_id=182889420]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.4840001
+anchor_top = 0.064
+anchor_right = -1.4840001
+anchor_bottom = 0.064
+offset_left = -18.639996
+offset_top = 3.4399998
+offset_right = 126.36
+offset_bottom = 37.44
+theme_override_font_sizes/font_size = 24
+text = "Speed: 100.0"
