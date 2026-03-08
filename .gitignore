@@ -18,3 +18,5 @@ mono_crash.*.json
 .cursor/settings.json
 
 build/
+
+build/
