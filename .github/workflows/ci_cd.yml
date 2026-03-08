@@ -5,7 +5,7 @@ on:
   # Trigger tests on every push to any branch
     branches: [ "**" ]
   pull_request:
-    # Trigger tests when merge into main
+    # Trigger tests when merge into prod
     branches: [ "prod" ]
 
 jobs:
