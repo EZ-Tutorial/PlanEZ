@@ -23,6 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Remove gdUnit4
+        run: |
+          rm -rf addons/gdUnit4
+          sed -i '/gdUnit4/d' project.godot
+
       - name: Export Godot Web build
         uses: firebelley/godot-export@v7.0.0
         with:
