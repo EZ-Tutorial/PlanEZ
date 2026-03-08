@@ -9,6 +9,10 @@ var current_speed : float = 0.0
 
 @export var takeoff_speed : float = 2
 
+# Manœuvres : montée = perte de vitesse, piqué = gain (on peut dépasser max_speed en piqué)
+@export var maneuver_speed_factor : float = 3.0  # rad⁻¹·s⁻¹ : effet du pitch sur la vitesse
+@export var max_dive_speed_multiplier : float = 1.8  # vitesse max = max_speed × ceci en piqué
+
 # ------direction------
 # Pitch = nez haut/bas (souris verticale). Roll = inclinaison ailes (souris horizontale). Yaw = tourner gauche/droite (Q/D).
 @export var mouse_sensitivity : float = 0.002
@@ -56,14 +60,19 @@ func _physics_process(delta: float) -> void:
 
 	#------speed------
 	if Input.is_physical_key_pressed(KEY_W):
-		# -Z local = "devant" en Godot 3D
 		current_speed = move_toward(current_speed, max_speed, acceleration * delta)
 	elif Input.is_physical_key_pressed(KEY_S):
 		current_speed = move_toward(current_speed, 0, braking_deceleration * delta)
 	else:
-		# Pas de touche = on s'arrête doucement
 		current_speed = move_toward(current_speed, 0, natural_deceleration * delta)
-	current_speed = clamp(current_speed, 0, max_speed)
+
+	var in_flight: bool = not is_on_floor() or current_speed > takeoff_speed
+	# Manœuvres : nez en l'air = perte de vitesse, nez en bas = gain (piqué peut dépasser max_speed)
+	if in_flight:
+		current_speed -= rotation.x * maneuver_speed_factor * delta  # pitch > 0 → perd, pitch < 0 → gagne
+
+	var max_allowed_speed: float = max_speed * max_dive_speed_multiplier
+	current_speed = clampf(current_speed, 0.0, max_allowed_speed)
 
 	if speed_label:
 		speed_label.text = "Speed: %.1f" % current_speed
@@ -78,7 +87,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_physical_key_pressed(KEY_D):
 		target_yaw -= yaw_speed * delta
 
-	var in_flight: bool = not is_on_floor() or current_speed > takeoff_speed
 	if in_flight:
 		var turn_rate: float = rotation.z * current_speed * turn_from_bank_factor  # bank left → tourne à gauche
 		target_yaw += turn_rate * delta
@@ -98,7 +106,7 @@ func _physics_process(delta: float) -> void:
 	var animation_player := $AnimationPlayer
 	if animation_player.has_animation("propeller_rotation"):
 		animation_player.play("propeller_rotation")
-		animation_player.speed_scale = clamp(current_speed, 1, max_animation_speed) * animation_multiplier  # clamp pour que la vitesse reste dans l'intervalle désiré
+		animation_player.speed_scale = clampf(current_speed, 1.0, max_animation_speed * max_dive_speed_multiplier) * animation_multiplier
 
 
 	#------gravity------
