@@ -3,7 +3,8 @@ extends CharacterBody3D
 # ------vitesse------
 @export var max_speed : float = 10.0
 @export var acceleration : float = 2
-@export var deceleration : float = 1
+@export var natural_deceleration : float = 0.7
+@export var braking_deceleration : float = 2
 var current_speed : float = 0.0
 
 @export var takeoff_speed : float = 2
@@ -12,9 +13,10 @@ var current_speed : float = 0.0
 # Pitch = nez haut/bas (souris verticale). Roll = inclinaison ailes (souris horizontale). Yaw = tourner gauche/droite (Q/D).
 @export var mouse_sensitivity : float = 0.002
 @export var pitch_range : float = 1.0
-@export var yaw_speed : float = 1.2  # rad/s avec Q et D
+@export var yaw_speed : float = 1.2  # rad/s avec Q et D (réglage fin)
+@export var turn_from_bank_factor : float = 0.04  # virage dû au bank : roll * speed * ce facteur → rad/s
 const MAX_BANK_RAD := 1.5708  # roll ±90°
-var target_yaw : float = 0.0    # Q/D (lacet = heading)
+var target_yaw : float = 0.0    # Q/D + virage dû au bank
 var target_pitch : float = 0.0  # souris Y (tangage)
 var target_bank : float = 0.0   # souris X (roulis)
 
@@ -56,9 +58,11 @@ func _physics_process(delta: float) -> void:
 	if Input.is_physical_key_pressed(KEY_W):
 		# -Z local = "devant" en Godot 3D
 		current_speed = move_toward(current_speed, max_speed, acceleration * delta)
+	elif Input.is_physical_key_pressed(KEY_S):
+		current_speed = move_toward(current_speed, 0, braking_deceleration * delta)
 	else:
 		# Pas de touche = on s'arrête doucement
-		current_speed = move_toward(current_speed, 0, deceleration * delta)
+		current_speed = move_toward(current_speed, 0, natural_deceleration * delta)
 	current_speed = clamp(current_speed, 0, max_speed)
 
 	if speed_label:
@@ -68,13 +72,16 @@ func _physics_process(delta: float) -> void:
 	# velocity = -transform.basis.z * current_speed
 
 	#------direction------
-	# Yaw (lacet) = Q/A gauche, D droite (A = Q sur AZERTY)
+	# Yaw manuel (Q/D) pour réglage fin
 	if Input.is_physical_key_pressed(KEY_Q) or Input.is_physical_key_pressed(KEY_A):
 		target_yaw += yaw_speed * delta
 	if Input.is_physical_key_pressed(KEY_D):
 		target_yaw -= yaw_speed * delta
 
-	if not is_on_floor() or current_speed > takeoff_speed:
+	var in_flight: bool = not is_on_floor() or current_speed > takeoff_speed
+	if in_flight:
+		var turn_rate: float = rotation.z * current_speed * turn_from_bank_factor  # bank left → tourne à gauche
+		target_yaw += turn_rate * delta
 		rotation.y = lerp_angle(rotation.y, target_yaw, delta * 3.0)
 		rotation.x = lerp_angle(rotation.x, target_pitch, delta * 3.0)
 		rotation.z = lerp_angle(rotation.z, target_bank, delta * 5.0)
