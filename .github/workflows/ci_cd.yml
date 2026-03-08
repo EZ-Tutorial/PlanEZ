@@ -1,23 +1,33 @@
-name: Deploy Web Build
+name: CI/CD
 
 on:
-  workflow_run:
-    workflows: ["GDUnit4 CI"]
-    types:
-      - completed
-    branches: ["github-host"]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  push:
+  # Trigger tests on every push to any branch
+    branches: [ "**" ]
+  pull_request:
+    # Trigger tests when merge into main
+    branches: [ "prod" ]
 
 jobs:
-  export_and_deploy:
+  GDUnit4_tests:
     runs-on: ubuntu-latest
-    
-    # Check if the CI workflow was successful before running this job
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Execute tests
+        uses: godot-gdunit-labs/gdUnit4-action@v1
+        with:
+          godot-version: '4.6.1'
+          paths: 'res://tests'
+          timeout: 5
+          version: 'latest'
+          publish-report: false
+  
+  Export_and_Deploy:
+    needs: GDUnit4_tests
+    if: github.ref == 'refs/heads/github-host'
+    runs-on: ubuntu-latest
     
     environment:
       name: github-pages
@@ -27,22 +37,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Remove gdUnit4
+      - name: Remove test framework before export
         run: |
           rm -rf addons/gdUnit4
           sed -i '/gdUnit4/d' project.godot
 
-      - name: Export Godot Web build
+      - name: Export web build
         uses: firebelley/godot-export@v7.0.0
         with:
-          # Download URLs for the Godot engine and export templates
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_export_templates.tpz
           relative_project_path: ./
           export_debug: false
           presets_to_export: Web
 
-      - name: Setup GitHub Pages
+      - name: Setup GitHub pages
         uses: actions/configure-pages@v5
 
       - name: Upload web build artifact
@@ -50,6 +59,6 @@ jobs:
         with:
           path: ./build/web
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub pages
         id: deployment_step
         uses: actions/deploy-pages@v4
