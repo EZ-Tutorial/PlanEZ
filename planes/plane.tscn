@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://csx77lgnpwokb"]
 
 [ext_resource type="Texture2D" uid="uid://ci0j562wny8ee" path="res://assets/biplane_0.png" id="1_vtltu"]
-[ext_resource type="Script" uid="uid://6btieodv486p" path="res://Planes/plane.gd" id="2_script"]
+[ext_resource type="Script" uid="uid://6btieodv486p" path="res://planes/plane.gd" id="2_script"]
 
 [sub_resource type="Animation" id="Animation_vtltu"]
 length = 0.001
