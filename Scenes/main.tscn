@@ -19,16 +19,19 @@ tonemap_mode = 2
 size = Vector3(500, 0.2, 500)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+lightmap_size_hint = Vector2i(2502, 2502)
 size = Vector2(500, 500)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jjgbg"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
-albedo_color = Color(0.22, 0.35, 0.18, 1)
-albedo_texture = SubResource("CompressedTexture2D_jjgbg")
+shading_mode = 2
+albedo_color = Color(0, 0.23921569, 0, 1)
 roughness = 0.9
 uv1_scale = Vector3(10, 10, 10)
 uv1_offset = Vector3(-0.15, 0.47, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jjgbg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bo1nx"]
 
 [node name="Main" type="Node3D" unique_id=678830766]
 
@@ -46,10 +49,11 @@ directional_shadow_max_distance = 200.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=111222333]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 shape = SubResource("BoxShape3D_floor")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=444555666]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004699707, 0.1, -0.01771903)
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.004699707, 0.1, -0.01771903)
 mesh = SubResource("PlaneMesh_floor")
 surface_material_override/0 = SubResource("StandardMaterial3D_floor")
 
@@ -61,3 +65,12 @@ transform = Transform3D(1, 0, 0, 0, 0.9150231, 0.40340158, 0, -0.40340158, 0.915
 doppler_tracking = 2
 current = true
 size = 1.294
+
+[node name="cube" type="StaticBody3D" parent="." unique_id=2100800509]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 7.8216324, 2.409225, -14.790166)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cube" unique_id=244867250]
+shape = SubResource("BoxShape3D_jjgbg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cube" unique_id=1255288204]
+mesh = SubResource("BoxMesh_bo1nx")
