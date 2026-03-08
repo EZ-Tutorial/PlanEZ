@@ -16,3 +16,5 @@ data_*/
 mono_crash.*.json
 .cursor/
 .vscode/
+
+build/

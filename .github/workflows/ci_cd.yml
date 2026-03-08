@@ -1,0 +1,100 @@
+name: CI/CD
+
+on:
+  push:
+  # Trigger tests on every push to any branch
+    branches: [ "**" ]
+  pull_request:
+    # Trigger tests when merge into prod
+    branches: [ "prod" ]
+
+jobs:
+  GDUnit4_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Execute tests
+        uses: godot-gdunit-labs/gdUnit4-action@v1
+        with:
+          godot-version: '4.6.1'
+          paths: 'res://tests'
+          timeout: 5
+          version: 'latest'
+          publish-report: false
+  
+  Export_and_Deploy:
+    needs: GDUnit4_tests
+    if: github.ref == 'refs/heads/prod'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      deployments: write
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment_step.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Remove test framework before export
+        run: |
+          rm -rf addons/gdUnit4
+          sed -i '/gdUnit4/d' project.godot
+
+      - name: Export web build
+        id: godot_export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_export_templates.tpz
+          relative_project_path: ./
+          export_debug: false
+          presets_to_export: Web
+
+      - name: Setup GitHub pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload web build artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ steps.godot_export.outputs.build_directory }}/Web
+
+      - name: Deploy to GitHub pages
+        id: deployment_step
+        uses: actions/deploy-pages@v4
+
+      - name: Delete old deployments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployments = await github.paginate(
+              github.rest.repos.listDeployments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment: 'github-pages',
+                per_page: 100,
+              }
+            );
+            deployments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            const toDelete = deployments.slice(1);
+            for (const deployment of toDelete) {
+              await github.rest.repos.createDeploymentStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: deployment.id,
+                state: 'inactive',
+              });
+              await github.rest.repos.deleteDeployment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: deployment.id,
+              });
+            }

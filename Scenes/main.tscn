@@ -1,15 +1,76 @@
-[gd_scene format=3 uid="uid://dl45wbvpv21rk"]
+[gd_scene format=3 uid="uid://0ushbveag60l"]
 
-[ext_resource type="PackedScene" uid="uid://qw6nynwwatjy" path="res://Assets/biplane.gltf" id="1_jjgbg"]
+[ext_resource type="PackedScene" uid="uid://csx77lgnpwokb" path="res://planes/plane.tscn" id="1_jjgbg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_horizon_color = Color(0.646, 0.735, 0.831, 1)
+ground_horizon_color = Color(0.646, 0.735, 0.831, 1)
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_env"]
+background_mode = 2
+sky = SubResource("Sky_sky")
+ambient_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(500, 0.2, 500)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+lightmap_size_hint = Vector2i(2502, 2502)
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+shading_mode = 2
+albedo_color = Color(0, 0.23921569, 0, 1)
+roughness = 0.9
+uv1_scale = Vector3(10, 10, 10)
+uv1_offset = Vector3(-0.15, 0.47, 0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jjgbg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bo1nx"]
 
 [node name="Main" type="Node3D" unique_id=678830766]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=123456789]
+environment = SubResource("Environment_env")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=52919964]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 100, 0)
-directional_shadow_mode = 0
+transform = Transform3D(0.9999507, 4.3408735e-10, -0.009930761, 0.009930761, -4.3709235e-08, 0.9999507, 0, -1, -4.3711392e-08, 0, 135.85295, 59.910507)
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_fade_start = 0.9
+directional_shadow_max_distance = 200.0
 
-[node name="Airplane" parent="." unique_id=1230383569 instance=ExtResource("1_jjgbg")]
+[node name="Floor" type="StaticBody3D" parent="." unique_id=987654321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Airplane" unique_id=1549108663]
-transform = Transform3D(1, 0, 0, 0, 0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 1, 3)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=111222333]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=444555666]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.004699707, 0.1, -0.01771903)
+mesh = SubResource("PlaneMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="Plane" parent="." unique_id=824237826 instance=ExtResource("1_jjgbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.594866, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Plane" unique_id=1549108663]
+transform = Transform3D(1, 0, 0, 0, 0.9150231, 0.40340158, 0, -0.40340158, 0.9150231, 0, 1.5789331, 2.3340292)
+doppler_tracking = 2
 current = true
+size = 1.294
+
+[node name="cube" type="StaticBody3D" parent="." unique_id=2100800509]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 7.8216324, 2.409225, -14.790166)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cube" unique_id=244867250]
+shape = SubResource("BoxShape3D_jjgbg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cube" unique_id=1255288204]
+mesh = SubResource("BoxMesh_bo1nx")
