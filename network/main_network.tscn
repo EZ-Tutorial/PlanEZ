@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://d1mv30lqqeihr"]
+
+[ext_resource type="PackedScene" uid="uid://c86f4vyllbagu" path="res://network/network_manager.tscn" id="1_swh1i"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ccvlo"]
+sky_horizon_color = Color(0.646, 0.735, 0.831, 1)
+ground_horizon_color = Color(0.646, 0.735, 0.831, 1)
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ProceduralSkyMaterial_ccvlo")
+
+[sub_resource type="Environment" id="Environment_swh1i"]
+background_mode = 2
+sky = SubResource("Sky_sky")
+ambient_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u0g5i"]
+size = Vector3(500, 0.2, 500)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_picv5"]
+lightmap_size_hint = Vector2i(2502, 2502)
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyeh4"]
+shading_mode = 2
+albedo_color = Color(0, 0.23921569, 0, 1)
+roughness = 0.9
+uv1_scale = Vector3(10, 10, 10)
+uv1_offset = Vector3(-0.15, 0.47, 0)
+
+[node name="Main" type="Node3D" unique_id=1412366093]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=749089144]
+environment = SubResource("Environment_swh1i")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1439321223]
+transform = Transform3D(0.9999507, 4.3408735e-10, -0.009930761, 0.009930761, -4.3709235e-08, 0.9999507, 0, -1, -4.3711392e-08, 0, 135.85295, 59.910507)
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_fade_start = 0.9
+directional_shadow_max_distance = 200.0
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1605783518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=253237084]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_u0g5i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1096773046]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0.004699707, 0.1, -0.01771903)
+mesh = SubResource("PlaneMesh_picv5")
+surface_material_override/0 = SubResource("StandardMaterial3D_nyeh4")
+
+[node name="NetworkManager" parent="." unique_id=1565415215 instance=ExtResource("1_swh1i")]

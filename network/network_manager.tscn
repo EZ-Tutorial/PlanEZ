@@ -88,7 +88,7 @@ text = "Server disconnected"
 label_settings = SubResource("LabelSettings_k2nfl")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=754414213]
-_spawnable_scenes = PackedStringArray("uid://csx77lgnpwokb")
+_spawnable_scenes = PackedStringArray("uid://bre4kgdjd473p")
 spawn_path = NodePath("../SpawnRoot")
 
 [node name="SpawnRoot" type="Node3D" parent="." unique_id=585385120]
