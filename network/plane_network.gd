@@ -30,6 +30,11 @@ var target_bank : float = 0.0   # souris X (roulis)
 @onready var camera: Camera3D = $Camera3D
 @onready var speed_label: Label = $SpeedOverlay/SpeedPanel/SpeedLabel
 
+func _enter_tree() -> void:
+	# The MultiplayerSpawner syncs the node name automatically.
+	# We use it to set the correct authority on all clients before the synchronizer starts.
+	set_multiplayer_authority(name.to_int())
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	target_yaw = rotation.y
