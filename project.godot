@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="PlanEZ"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="uid://0ushbveag60l"
 config/features=PackedStringArray("4.6", "Forward Plus")
+run/max_fps=60
 config/icon="uid://drtc1por4nsvl"
 
 [editor]
